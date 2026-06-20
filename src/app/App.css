@@ -1,0 +1,12 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+
