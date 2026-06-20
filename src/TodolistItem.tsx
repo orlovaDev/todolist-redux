@@ -119,6 +119,7 @@ export const TodolistItem = ({
         <IconButton
           onClick={deleteTodolistHandler}
           size="small"
+          color="secondary"
         >
           <DeleteForeverIcon />
         </IconButton>

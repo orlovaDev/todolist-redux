@@ -10,9 +10,11 @@ import {NavButton} from "../NavButton.ts";
 import {ThemeProvider} from "@mui/material/styles";
 import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC} from "../model/todolists-reducer.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from "../model/tasks-reducer.ts";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "./store.ts";
 import {useState} from "react";
+import {useAppSelector} from "../common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
+import {selectTodolists} from "../model/todolists-selectors.ts";
+import {selectTasks} from "../model/task-selectors.ts";
 
 
 export type FilterValueType = 'all' | 'active' | 'completed'
@@ -33,11 +35,9 @@ export type TaskStateType = Record<string, Task[]>    // тоже самое ч�
 
 export const App = () => {
 
-  const todolists = useSelector<RootState, TodolistType[]>((state) => state.todolists)
-
-  const tasks = useSelector<RootState, TaskStateType>((state) => state.tasks)
-
-  const dispatch = useDispatch();
+  const todolists = useAppSelector(selectTodolists)
+  const tasks = useAppSelector(selectTasks)
+  const dispatch = useAppDispatch();
 
   // tasks
   const deleteTask = (payload: { taskId: TaskType["id"], todolistId: TodolistType["id"] }) => {
@@ -63,7 +63,7 @@ export const App = () => {
 
   // todolists
   const deleteTodolist = (todolistId: TodolistType["id"]) => {
-    dispatch(deleteTodolistAC(todolistId))
+    dispatch(deleteTodolistAC({id: todolistId}))
   }
 
   const createTodolist = (title: TodolistType["title"]) => {
@@ -111,10 +111,10 @@ export const App = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#fffd85',
+        main: '#81efd6',
       },
       secondary: {
-        main: '#800647'
+        main: '#1b806b'
       },
       mode: isDark ? "dark" : "light",
     },
