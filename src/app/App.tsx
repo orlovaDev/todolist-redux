@@ -2,7 +2,7 @@ import './App.css'
 import {TaskType, TodolistItem} from "../TodolistItem.tsx";
 import {CreateItemForm} from "../CreateItemForm.tsx";
 import {getFilterTasks} from "../utilites/getFilterTasks.ts";
-import {AppBar, Box, Container, createTheme, CssBaseline, IconButton, Paper, Switch, Toolbar} from "@mui/material";
+import {AppBar, Box, Container, CssBaseline, IconButton, Paper, Switch, Toolbar} from "@mui/material";
 import Grid2 from '@mui/material/Grid2';
 import MenuIcon from '@mui/icons-material/Menu'
 import {container} from "../TodolistItem.styles.ts";
@@ -10,11 +10,13 @@ import {NavButton} from "../NavButton.ts";
 import {ThemeProvider} from "@mui/material/styles";
 import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC} from "../model/todolists-reducer.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from "../model/tasks-reducer.ts";
-import {useState} from "react";
 import {useAppSelector} from "../common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
 import {selectTodolists} from "../model/todolists-selectors.ts";
 import {selectTasks} from "../model/task-selectors.ts";
+import {selectThemeMode} from "./app-selectors.ts";
+import {changeThemeModeAC} from "./app-reducer.ts";
+import {getTheme} from "../common/theme/theme.ts";
 
 
 export type FilterValueType = 'all' | 'active' | 'completed'
@@ -37,8 +39,14 @@ export const App = () => {
 
   const todolists = useAppSelector(selectTodolists)
   const tasks = useAppSelector(selectTasks)
+  const themeMode = useAppSelector(selectThemeMode)
+
   const dispatch = useAppDispatch();
 
+  const changeModeHandler = () => {
+    const nextMode = themeMode === 'light' ? 'dark' : 'light'
+    dispatch(changeThemeModeAC({ themeMode: nextMode }))
+  }
   // tasks
   const deleteTask = (payload: { taskId: TaskType["id"], todolistId: TodolistType["id"] }) => {
     const {taskId, todolistId} = payload
@@ -106,22 +114,9 @@ export const App = () => {
       </Grid2>
     )
   })
-  const [isDark, setDark] = useState(false)
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#81efd6',
-      },
-      secondary: {
-        main: '#1b806b'
-      },
-      mode: isDark ? "dark" : "light",
-    },
-  })
   return (
     <div className="app">
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={getTheme(themeMode)}>
         <CssBaseline />
         <AppBar position="static">
           <Toolbar>
@@ -133,13 +128,13 @@ export const App = () => {
                 <MenuIcon />
               </IconButton>
               <Box>
-                <Switch onChange={() => setDark(!isDark)} />
+                <Switch
+                  checked={themeMode === 'dark'}
+                  onChange={changeModeHandler}
+                />
                 <NavButton size={'small'}>Sign in</NavButton>
                 <NavButton size={'small'}>Sign up</NavButton>
-                <NavButton
-                  size={'small'}
-                  background={theme.palette.secondary.light}
-                >Faq</NavButton>
+                <NavButton size={'small'}>Faq</NavButton>
               </Box>
             </Container>
           </Toolbar>

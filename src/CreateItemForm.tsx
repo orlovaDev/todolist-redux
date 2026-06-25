@@ -66,8 +66,7 @@ export const CreateItemForm = ({createItem, maxTitleLength}: PropsType) => {
         helperText={userMessage}
         sx={{
           '& .MuiFormHelperText-root': {
-            // Если ошибки нет, цвет фиолетовый. Если error={true}, MUI сам перекрасит в красный
-            color: error ? 'red' : 'purple',
+            color: error ? '#d32f2f' : '#1E1614FF',
             fontWeight: 500,
           }
         }}
