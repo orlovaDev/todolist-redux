@@ -1,4 +1,4 @@
-import {FilterValueType, TodolistType} from "../app/App.tsx";
+import {FilterValueType} from "../app/App.tsx";
 import {createAction, createReducer, nanoid} from "@reduxjs/toolkit";
 
 export const deleteTodolistAC = createAction<{ id: string }>('todolists/deleteTodolist')
@@ -32,6 +32,13 @@ export const todolistsReducer = createReducer(initialState, (builder) => {
     })
   //  можно написать дефолтный кейс , но можно не писать , он под капотом добавит его
 })
+
+
+export type TodolistType = {
+  id: string
+  title: string
+  filter: FilterValueType
+}
 
 
 

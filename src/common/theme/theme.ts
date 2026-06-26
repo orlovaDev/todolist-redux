@@ -1,5 +1,5 @@
  import {createTheme} from "@mui/material";
- import {ThemeMode} from "../../app/app-reducer.ts";
+ import {ThemeMode} from "@/app/app-reducer.ts";
 
  export const getTheme = (themeMode: ThemeMode) => {
    const isDark = themeMode === 'dark';

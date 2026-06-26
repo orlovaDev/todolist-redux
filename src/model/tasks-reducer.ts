@@ -1,19 +1,17 @@
-import {createTodolistAC, deleteTodolistAC} from "./todolists-reducer.ts";
-import {TaskStateType, TodolistType} from "../app/App.tsx";
-import {TaskType} from "../TodolistItem.tsx";
+import {createTodolistAC, deleteTodolistAC, TodolistType} from "./todolists-reducer.ts";
 import {createAction, createReducer, nanoid} from "@reduxjs/toolkit";
 
-export const deleteTaskAC = createAction<{ id: TaskType["id"], todolistId: TodolistType['id'] }>("tasks/deleteTask")
-export const createTaskAC = createAction<{ title: TaskType["title"], todolistId: TodolistType["id"] }>("tasks/createTask");
+export const deleteTaskAC = createAction<{ id: Task["id"], todolistId: TodolistType['id'] }>("tasks/deleteTask")
+export const createTaskAC = createAction<{ title: Task["title"], todolistId: TodolistType["id"] }>("tasks/createTask");
 export const changeTaskStatusAC = createAction<{
-  id: TaskType["id"],
-  isDone: TaskType["isDone"],
+  id: Task["id"],
+  isDone: Task["isDone"],
   todolistId: TodolistType["id"]
 }>("tasks/changeTaskStatus");
 
 export const changeTaskTitleAC = createAction<{
-  id: TaskType["id"],
-  title: TaskType["title"],
+  id: Task["id"],
+  title: Task["title"],
   todolistId: TodolistType["id"]
 }>("tasks/changeTaskTitle");
 
@@ -53,6 +51,14 @@ export const tasksReducer = createReducer(initialState, (builder) => {
       }
     })
 })
+
+export type Task = {
+  id: string,
+  title: string,
+  isDone: boolean
+}
+
+export type TaskStateType = Record<string, Task[]>    // тоже самое что [todolistId: string]: TaskType[]
 
 
 

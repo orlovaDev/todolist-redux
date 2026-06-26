@@ -1,7 +1,7 @@
-import {TaskType} from "../TodolistItem.tsx";
 import {FilterValueType} from "../app/App.tsx";
+import {Task} from "@/model/tasks-reducer.ts";
 
-export const getFilterTasks = (tasks: TaskType[], filter: FilterValueType) => {
+export const getFilterTasks = (tasks: Task[], filter: FilterValueType) => {
   let filteredTasks = tasks
 
   if (filter === "active") {
